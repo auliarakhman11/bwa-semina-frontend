@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Card, Container, Form } from "react-bootstrap";
+import { Card, Container, Form, Alert } from "react-bootstrap";
 import SButton from "../../components/Button";
 import TextInputWithLabel from "../../components/TextInputWithLabel";
+import axios from "axios";
+import SAlert from "../../components/Alert";
 
 function PageSignin() {
     const [form, setForm] = useState({
@@ -13,8 +15,24 @@ function PageSignin() {
         setForm({...form, [e.target.name]: e.target.value});
     };
 
+    const handleSubmit = async ()=>{
+        try {
+            const res = await axios.post('http://localhost:9000/api/v1/cms/auth/signin', {
+                email: form.email,
+                password: form.password
+            });
+
+            console.log(res);
+        } catch (err) {
+            console.log(err.response.data);
+        }
+        
+    }
+
     return (
         <Container md={12}>
+            <SAlert type="danger" message="test" />
+            
             <Card style={{ width: '50%' }} className="m-auto mt-5">
             
                 <Card.Body>
@@ -39,7 +57,7 @@ function PageSignin() {
                         onChange={handleChange}
                     />
 
-                    <SButton variant="primary" type="submit" className='mt-3'>
+                    <SButton variant="primary" action={handleSubmit} className='mt-3'>
                         Submit
                     </SButton>
                 </Form>
