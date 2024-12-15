@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, Container } from "react-bootstrap";
 import axios from "axios";
 import SAlert from "../../components/Alert";
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Navigate} from 'react-router-dom';
 import SForm from './form'
 
 import { config } from '../../configs'
@@ -41,6 +41,7 @@ function PageSignin() {
             );
 
             // console.log(res.data.data.token); //defautl axios harus masuk ke data dulu baru ke respons server
+            localStorage.setItem('token',res.data.data.token);
 
             navigate('/');
 
@@ -58,6 +59,8 @@ function PageSignin() {
         
     }
 
+    const token = localStorage.getItem('token');
+    if (token) return <Navigate to='/' replace={true} />
     return (
         <Container md={12} className="my-5">
             <div className="m-auto" style={{ width : '50%' }}>
