@@ -16,12 +16,15 @@ function PageSignin() {
         message: '',
         type: '',
     });
+    
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleChange = (e)=>{
         setForm({...form, [e.target.name]: e.target.value});
     };
 
     const handleSubmit = async ()=>{
+        setIsLoading(true);
         try {
             const res = await axios.post('http://localhost:9000/api/v1/cms/auth/signin',
             // form
@@ -34,9 +37,11 @@ function PageSignin() {
 
             setAlert({
                 status: true,
-                message:'Login success, token =' + res.data.data.token, //defautl axios harus masuk ke data dulu baru ke respons server
+                message:'Login success, token =' + res?.data?.data?.token ?? 'Internal Server Error', //defautl axios harus masuk ke data dulu baru ke respons server
                 type: 'success'
             });
+
+            setIsLoading(false);
         } catch (err) {
             // console.log(err.response.data.msg);
             setAlert({
@@ -44,6 +49,8 @@ function PageSignin() {
                 message: err?.response?.data?.msg ?? 'Internal server error', //kalau menggunakan axios harus masuk ke response dulu baru ke data
                 type: 'danger'
             });
+
+            setIsLoading(false);
         }
         
     }
@@ -78,7 +85,7 @@ function PageSignin() {
                         onChange={handleChange}
                     />
 
-                    <SButton variant="primary" action={handleSubmit} className='mt-3'>
+                    <SButton loading={isLoading} disabled={isLoading} variant="primary" action={handleSubmit} className='mt-3'>
                         Submit
                     </SButton>
                 </Form>
