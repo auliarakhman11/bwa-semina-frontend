@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Card, Container, Form, Alert } from "react-bootstrap";
-import SButton from "../../components/Button";
-import TextInputWithLabel from "../../components/TextInputWithLabel";
+import { Card, Container } from "react-bootstrap";
 import axios from "axios";
 import SAlert from "../../components/Alert";
 import {useNavigate} from 'react-router-dom';
+import SForm from './form'
+
+import { config } from '../../configs'
 
 function PageSignin() {
 
@@ -30,20 +31,16 @@ function PageSignin() {
     const handleSubmit = async ()=>{
         setIsLoading(true);
         try {
-            const res = await axios.post('http://localhost:9000/api/v1/cms/auth/signin',
-            // form
-            { 
-                email: form.email,
-                password: form.password
-            });
+            const res = await axios.post(`${config.api_host_dev}/cms/auth/signin`,
+            form // kalau sama pakai ini
 
-            // console.log(res.data.data.token); 
+            // { 
+            //     email: form.email,
+            //     password: form.password
+            // } // kalau custome pakai ini
+            );
 
-            // setAlert({
-            //     status: true,
-            //     message:'Login success, token =' + res?.data?.data?.token ?? 'Internal Server Error', //defautl axios harus masuk ke data dulu baru ke respons server
-            //     type: 'success'
-            // });
+            // console.log(res.data.data.token); //defautl axios harus masuk ke data dulu baru ke respons server
 
             navigate('/');
 
@@ -71,30 +68,8 @@ function PageSignin() {
             
                 <Card.Body>
                 <Card.Title className="text-center">Login Page</Card.Title>
-                <Form>
-
-                    <TextInputWithLabel
-                        label='Email Addres'
-                        name="email"
-                        value={form.email} 
-                        type="email" 
-                        placeholder="Enter email"
-                        onChange={handleChange}
-                    />
-
-                    <TextInputWithLabel
-                        label='Password'
-                        name="password"
-                        value={form.password} 
-                        type="password" 
-                        placeholder="Password"
-                        onChange={handleChange}
-                    />
-
-                    <SButton loading={isLoading} disabled={isLoading} variant="primary" action={handleSubmit} className='mt-3'>
-                        Submit
-                    </SButton>
-                </Form>
+                <SForm form={form} handleChange={handleChange} handleSubmit={handleSubmit} isLoading={isLoading} />
+                
                 </Card.Body>
             </Card>
             
