@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PageSignin from './pages/singin'
+import SigninPage from './pages/singin'
+import DashboardPage from './pages/dashboard'
 
 
 
@@ -8,8 +9,9 @@ function App() {
   return (    
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={ <>Home</> } />
-        <Route path='signin' element={ <PageSignin /> } />
+        {/* <Route path='/' element={ <>Home</> } /> */}
+        <Route path='signin' element={ <SigninPage /> } />
+        <Route path='/' element={ <DashboardPage /> } />
 
       </Routes>
     </BrowserRouter>

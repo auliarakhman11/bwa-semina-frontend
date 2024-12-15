@@ -4,8 +4,12 @@ import SButton from "../../components/Button";
 import TextInputWithLabel from "../../components/TextInputWithLabel";
 import axios from "axios";
 import SAlert from "../../components/Alert";
+import {useNavigate} from 'react-router-dom';
 
 function PageSignin() {
+
+    const navigate = useNavigate();
+
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -35,11 +39,13 @@ function PageSignin() {
 
             // console.log(res.data.data.token); 
 
-            setAlert({
-                status: true,
-                message:'Login success, token =' + res?.data?.data?.token ?? 'Internal Server Error', //defautl axios harus masuk ke data dulu baru ke respons server
-                type: 'success'
-            });
+            // setAlert({
+            //     status: true,
+            //     message:'Login success, token =' + res?.data?.data?.token ?? 'Internal Server Error', //defautl axios harus masuk ke data dulu baru ke respons server
+            //     type: 'success'
+            // });
+
+            navigate('/');
 
             setIsLoading(false);
         } catch (err) {
